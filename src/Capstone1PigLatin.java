@@ -45,6 +45,7 @@ public class Capstone1PigLatin {
 		// if statement for contractions?
 		// if for words with no vowels
 		// if translate for words start with vowels (a,e,i,o,u)
+		// call userInputStartsVowel(userInput);
 		// if translate for all other words
 
 	}
@@ -64,4 +65,16 @@ public class Capstone1PigLatin {
 		return true;
 	}
 
+	// check if variable starts with a vowel, then translate
+	public static void userInputStartVowel(String userInput) {
+		char firstLetter = userInput.charAt(0);
+		if (firstLetter == 'a' || firstLetter == 'A' || firstLetter == 'e' || firstLetter == 'E' || firstLetter == 'i'
+				|| firstLetter == 'I' || firstLetter == 'o' || firstLetter == 'O' || firstLetter == 'u'
+				|| firstLetter == 'U') {
+			userInput = userInput + "way";
+			System.out.println(userInput);
+		} else {
+
+		}
+	}
 }
