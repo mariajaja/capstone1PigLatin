@@ -21,7 +21,10 @@ public class Capstone1PigLatin {
 		System.out.print("Please enter a word or phrase to be translated: ");
 		userInput = userScanner.nextLine();
 		userInput = userInput.toLowerCase();
-		// add step to verify user entered text?
+
+		// method verifies that user entered some text
+		// call method when true to continue on userInputValid(userInput);
+		System.out.println(userInputValid(userInput));
 
 		// method for if general pig latin for one word (that does recursion if
 		// there are more than one word)
@@ -44,6 +47,21 @@ public class Capstone1PigLatin {
 		// if translate for words start with vowels (a,e,i,o,u)
 		// if translate for all other words
 
+	}
+
+	// verify that user is only letters (userInput.matches("[a-zA-Z]+"))
+
+	// method to validate user's text
+	public static boolean userInputValid(String userInput) {
+		while (userInput.equals("")) {
+			Scanner userScanner = new Scanner(System.in);
+
+			System.out.println("The program can't translate nothing. \nPlease enter a word or phrase: ");
+			userInput = userScanner.nextLine();
+
+			userScanner.close();
+		}
+		return true;
 	}
 
 }
