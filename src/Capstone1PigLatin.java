@@ -1,13 +1,10 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
  * 
  */
 
-/**
- * @author Mariah
- *
- */
 public class Capstone1PigLatin {
 
 	/**
@@ -15,44 +12,51 @@ public class Capstone1PigLatin {
 	 */
 	public static void main(String[] args) {
 		Scanner userScanner = new Scanner(System.in);
-		String userInput;
+		String userInput = "";
+		String systemQuit;
+		char[] nonLetters = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '!', '(', ')', '{', '}', '[',
+				']', '^', '~', '*', '?', ':', '&', '@' };
 
-		// prompt user for a word/phrase, and sets to lowercase
-		System.out.print("Please enter a word or phrase to be translated: ");
-		userInput = userScanner.nextLine();
-		userInput = userInput.toLowerCase();
+		do {
+			// allow multiple words to be translated
+			String[] userInputSplit;
 
-		// method verifies that user entered some text
-		// call method when true to continue on userInputValid(userInput);
-		System.out.println(userInputValid(userInput));
+			// prompt user for a word/phrase, and sets to lower case
+			System.out.print("Please enter a word or phrase to be translated: ");
+			userInput = userScanner.nextLine();
+			// splits statement to account for multiple words
+			userInputSplit = userInput.split("");
 
-		// method for if general pig latin for one word (that does recursion if
-		// there are more than one word)
-		// method that if word has no vowels, keep it same
-		// also if word starts w/ vowel, just add "way" to the end (Y is NOT a vowel)
-		// keep punctuation/translate for contractions (optional)
-		// don't translate with numbers (optional); keep word the same
+			// method verifies that user entered some text
+			userInputValid(userInput);
+			System.out.println("In English: " + userInput);
 
-		// translate, then display original and translated texts
-		// ask if user wants to translate again
+			// splits statement to account for multiple words
+
+			pigLatinTranslater(userInputSplit, nonLetters);
+
+			// possibly change above to return input to the same case it started out with
+
+			// ask if wants to play again
+			System.out.println("Would you like to translate a phrase again? \n(Type \"quit\" to end)");
+			systemQuit = userScanner.nextLine();
+
+		} while (!systemQuit.equalsIgnoreCase("quit"));
 
 		userScanner.close();
 	}
 
-	public static void pigLatinTranslater(String userInput) {
-		// make the method run for each next???
-		// if statement if each word contains a number/symbol to not translate
-		// if statement for contractions?
-		// if for words with no vowels
-		// if translate for words start with vowels (a,e,i,o,u)
-		// call userInputStartsVowel(userInput);
-		// if translate for all other words
+	public static void pigLatinTranslater(String[] userInputSplit, char[] nonLetters) {
 
+		// output for words with special characters and no vowels
+		userInputContainsNonLetters(userInputSplit, nonLetters);
+
+		// output for location of vowels in words, translated
+		userInputVowelTranslation(userInputSplit);
+		return;
 	}
 
-	// verify that user is only letters (userInput.matches("[a-zA-Z]+"))
-
-	// method to validate user's text
+	// method to validate user's entered some kind of text
 	public static boolean userInputValid(String userInput) {
 		while (userInput.equals("")) {
 			Scanner userScanner = new Scanner(System.in);
@@ -65,16 +69,38 @@ public class Capstone1PigLatin {
 		return true;
 	}
 
-	// check if variable starts with a vowel, then translate
-	public static void userInputStartVowel(String userInput) {
-		char firstLetter = userInput.charAt(0);
-		if (firstLetter == 'a' || firstLetter == 'A' || firstLetter == 'e' || firstLetter == 'E' || firstLetter == 'i'
-				|| firstLetter == 'I' || firstLetter == 'o' || firstLetter == 'O' || firstLetter == 'u'
-				|| firstLetter == 'U') {
-			userInput = userInput + "way";
-			System.out.println(userInput);
-		} else {
+	// method to check if variable starts with a vowel, then translate
+	public static void userInputVowelTranslation(String[] userInputSplit) {
+		// find position of first vowel, if any
+		for (int i = 0; i < userInputSplit.length; i++) {
+			char[] vowel = { 'a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U' };
+			String userInput = userInputSplit.toString();
+			// char firstVowel = Character.toLowerCase(userInput.charAt(i));
+			i = userInput.indexOf(i);
+			boolean position = Arrays.asList(userInput).contains(vowel);
+			// pigLatinTranslater(userInputSplit, nonLetters);
 
+			if (position && i == 0) {
+				System.out.println("In Pig Latin: " + userInput + "way");
+				break;
+
+			} else if (position && i != -1) {
+				// translating if vowel exists, and doesn't contain special characters
+				// moving letters of word from vowel to the end of word
+				String newBeginning = userInput.substring(i);
+				// extracting the alphabets present before the first vowel
+				String newEnding = userInput.substring(0, i);
+				System.out.println("In Pig Latin: " + newBeginning + newEnding + "ay");
+				break;
+			}
+		}
+	}
+
+	// checks for numbers, symbols, and no vowels and makes no changes
+	public static void userInputContainsNonLetters(String[] userInputSplit, char[] nonLetters) {
+		int index = Arrays.binarySearch(userInputSplit, nonLetters);
+		if (index >= 0) { // only returns if index is not negative (if not found, would be -1)
+			System.out.println("In Pig Latin: " + userInputSplit);
 		}
 	}
 }
